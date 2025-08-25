@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:intl_phone_field/intl_phone_field.dart';
-import 'package:novi_test/presentation/home/home_screen.dart';
+import 'package:novi_test/infrastructure/auth_controller.dart';
 import 'package:novi_test/utils/colors.dart';
 import 'package:novi_test/utils/text_strings.dart';
+import 'package:provider/provider.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -13,10 +12,19 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
+  late AuthController authProvider;
+  final TextEditingController countryCodeController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+
+  @override
+  void initState() {
+    authProvider = Provider.of<AuthController>(context, listen: false);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff171717),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -57,6 +65,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     SizedBox(
                       width: 80,
                       child: TextFormField(
+                        controller: countryCodeController,
                         decoration: InputDecoration(
                           hintText: "+91",
                           hintStyle:
@@ -75,6 +84,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     ),
                     Expanded(
                       child: TextFormField(
+                        controller: phoneController,
                         decoration: InputDecoration(
                           hintText: "Enter  Mobile Number",
                           hintStyle:
@@ -95,13 +105,7 @@ class _AuthScreenState extends State<AuthScreen> {
                 ),
                 InkWell(
                   onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return HomeScreen();
-                        },
-                      ),
-                    );
+                    login(context);
                   },
                   child: Center(
                     child: Container(
@@ -139,6 +143,14 @@ class _AuthScreenState extends State<AuthScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  void login(BuildContext context) async {
+    await authProvider.login(
+      countryCodeController.text,
+      phoneController.text,
+      context,
     );
   }
 }

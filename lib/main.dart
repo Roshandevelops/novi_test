@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:novi_test/infrastructure/auth_controller.dart';
-import 'package:novi_test/infrastructure/category_controller.dart';
+import 'package:novi_test/infrastructure/app_controller.dart';
 import 'package:novi_test/presentation/auth/auth_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -18,12 +17,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (context) {
-            return CategoryController();
-          },
-        ),
-        ChangeNotifierProvider(
-          create: (context) {
-            return AuthController();
+            return AppController();
           },
         ),
       ],

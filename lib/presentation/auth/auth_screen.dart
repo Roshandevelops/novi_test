@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:novi_test/infrastructure/auth_controller.dart';
+import 'package:novi_test/infrastructure/app_controller.dart';
 import 'package:novi_test/utils/colors.dart';
 import 'package:novi_test/utils/text_strings.dart';
 import 'package:provider/provider.dart';
@@ -12,13 +12,14 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
-  late AuthController authProvider;
-  final TextEditingController countryCodeController = TextEditingController();
+  late AppController authProvider;
+  final TextEditingController countryCodeController =
+      TextEditingController(text: '+91');
   final TextEditingController phoneController = TextEditingController();
 
   @override
   void initState() {
-    authProvider = Provider.of<AuthController>(context, listen: false);
+    authProvider = Provider.of<AppController>(context, listen: false);
     super.initState();
   }
 

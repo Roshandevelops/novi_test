@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:novi_test/domain/repository/auth_repository.dart';
+import 'package:novi_test/domain/model/category_model.dart';
+import 'package:novi_test/domain/repository/app_repository.dart';
 import 'package:novi_test/presentation/home/home_screen.dart';
 
-class AuthController extends ChangeNotifier {
-  final AuthRepository authRepository = AuthRepository();
+class AppController extends ChangeNotifier {
+  final AppRepository authRepository = AppRepository();
   String? token;
 
   Future<void> login(
@@ -29,6 +30,19 @@ class AuthController extends ChangeNotifier {
         );
       }
     }
+    notifyListeners();
+  }
+
+  List<CategoryModel> categoryList = [];
+  bool isLoading = false;
+
+  AppRepository appRepository = AppRepository();
+
+  Future<void> fetchCategories() async {
+    isLoading = true;
+    notifyListeners();
+    categoryList = await appRepository.fetchCategories();
+    isLoading = false;
     notifyListeners();
   }
 }

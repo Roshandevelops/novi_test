@@ -26,14 +26,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Hello Maria",
+                        "Title",
                         style: TextStyle(color: KColorConstants.whiteColor),
                       ),
                       CircleAvatar(),
                     ],
                   ),
                   Text(
-                    "Welcome back to Section",
+                    "Sub Title",
                     style: TextStyle(color: KColorConstants.loremColor),
                   ),
                   SizedBox(
@@ -95,7 +95,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       itemCount: 1,
                       itemBuilder: (context, index) {
                         return Container(
+                          width: double.infinity,
+                          height: MediaQuery.of(context).size.height * 1 / 2,
+                          color: Colors.amber,
                           child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
@@ -115,12 +119,18 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                   ],
                                 ),
-                              )
+                              ),
+                              Container(
+                                width: double.infinity,
+                                height:
+                                    MediaQuery.of(context).size.height * 1 / 3,
+                                decoration: BoxDecoration(
+                                  color: Colors.red,
+                                ),
+                              ),
+                              Text("Lorem texddt"),
                             ],
                           ),
-                          width: double.infinity,
-                          height: MediaQuery.of(context).size.height * 1 / 2,
-                          color: Colors.amber,
                         );
                       },
                     ),

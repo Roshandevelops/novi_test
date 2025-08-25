@@ -101,7 +101,10 @@ class _AddFeedsScreenState extends State<AddFeedsScreen> {
         elevation: 0,
         leading: IconButton(
           onPressed: () => Navigator.of(context).pop(),
-          icon: const Icon(Icons.arrow_back_ios_outlined, color: Colors.white),
+          icon: const Icon(
+            Icons.arrow_back_ios_outlined,
+            color: Colors.white,
+          ),
         ),
         title: const Text("Add Feeds", style: TextStyle(color: Colors.white)),
         actions: [
@@ -153,8 +156,17 @@ class _AddFeedsScreenState extends State<AddFeedsScreen> {
                   color: const Color(0xff1E1E1E),
                   child: Center(
                     child: _videoFile == null
-                        ? const Text("Select a video from Gallery",
-                            style: TextStyle(color: Colors.white70))
+                        ?const Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.add_photo_alternate_outlined),
+                              SizedBox(
+                                height: 10,
+                              ),
+                               Text("Select a video from Gallery",
+                                  style: TextStyle(color: Colors.white70)),
+                            ],
+                          )
                         : Text(
                             "Video Selected: ${_videoFile!.path.split('/').last}",
                             style: const TextStyle(color: Colors.white),
@@ -178,12 +190,18 @@ class _AddFeedsScreenState extends State<AddFeedsScreen> {
                   height: 100,
                   width: double.infinity,
                   color: const Color(0xff1E1E1E),
-                  child: Center(
-                    child: _imageFile == null
-                        ? const Text("Add a Thumbnail",
-                            style: TextStyle(color: Colors.white70))
-                        : Image.file(_imageFile!, fit: BoxFit.cover),
-                  ),
+                  child: _imageFile == null
+                      ?const Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Icon(
+                              Icons.camera_alt_sharp,
+                            ),
+                             Text("Add a Thumbnail",
+                                style: TextStyle(color: Colors.white70)),
+                          ],
+                        )
+                      : Image.file(_imageFile!, fit: BoxFit.cover),
                 ),
               ),
             ),
@@ -211,7 +229,7 @@ class _AddFeedsScreenState extends State<AddFeedsScreen> {
             /// Categories
             const Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
+              children:  [
                 Text("Categories This Project",
                     style: TextStyle(color: Colors.white, fontSize: 16)),
                 Text("View All",

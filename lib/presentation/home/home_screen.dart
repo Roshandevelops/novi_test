@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:novi_test/infrastructure/app_controller.dart';
 import 'package:novi_test/presentation/add_screen/add_screen.dart';
 import 'package:novi_test/utils/colors.dart';
+import 'package:novi_test/utils/image_strings.dart';
+import 'package:novi_test/utils/text_strings.dart';
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -22,8 +24,10 @@ class _HomeScreenState extends State<HomeScreen> {
       (_) async {
         await Provider.of<AppController>(context, listen: false)
             .fetchCategories();
-        await Provider.of<AppController>(context, listen: false)
-            .fetchHomeFeedData();
+        if (mounted) {
+          await Provider.of<AppController>(context, listen: false)
+              .fetchHomeFeedData();
+        }
       },
     );
     super.initState();
@@ -41,29 +45,29 @@ class _HomeScreenState extends State<HomeScreen> {
             : SafeArea(
                 child: Column(
                   children: [
-                    /// Header + Categories
+            
                     Padding(
                       padding: const EdgeInsets.all(20),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(
+                          const Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: const [
+                            children: [
                               Text(
-                                "Hello Maria",
+                                TextStrings.helloMaria,
                                 style: TextStyle(
                                   color: KColorConstants.whiteColor,
                                 ),
                               ),
                               CircleAvatar(
                                 backgroundImage:
-                                    AssetImage("assets/images/profile.jpg"),
+                                    AssetImage(ImageStrings.circleAvatarImage),
                               ),
                             ],
                           ),
                           const Text(
-                            "Welcome back to Section",
+                            TextStrings.welcomeBackToSection,
                             style: TextStyle(color: KColorConstants.loremColor),
                           ),
                           const SizedBox(height: 20),
@@ -189,8 +193,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   child: hasVideo
                                       ? VideoPlayerWidget(url: feed.video!)
                                       : Image.network(
-                                          feed.image ??
-                                              "https://st4.depositphotos.com/14953852/24787/v/1600/depositphotos_247872612-stock-illustration-no-image-available-icon-vector.jpg",
+                                          feed.image ?? ImageStrings.feedImage,
                                           fit: BoxFit.cover,
                                         ),
                                 ),
@@ -198,7 +201,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
                                 /// Description
                                 Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 10),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10),
                                   child: Text(
                                     feed.description ?? "Unknown Description",
                                     style: const TextStyle(
@@ -222,7 +226,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) {
-                  return AddFeedsScreen();
+                  return const AddFeedsScreen();
                 },
               ),
             );
@@ -239,8 +243,6 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 }
-
-/// Separate reusable video player widget
 class VideoPlayerWidget extends StatefulWidget {
   final String url;
   const VideoPlayerWidget({super.key, required this.url});

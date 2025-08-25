@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:novi_test/domain/model/category_model.dart';
 import 'package:novi_test/domain/model/feed_model.dart';
@@ -8,8 +7,8 @@ import 'package:novi_test/presentation/home/home_screen.dart';
 
 class AppController extends ChangeNotifier {
   final AppRepository authRepository = AppRepository();
-  String? token;
 
+  String? token;
   Future<void> login(
     String countryCode,
     String phone,

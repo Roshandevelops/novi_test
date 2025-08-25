@@ -3,20 +3,20 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
+import 'package:novi_test/core/api_constants.dart';
 import 'package:novi_test/domain/model/category_model.dart';
 import 'package:novi_test/domain/model/feed_model.dart';
 
 class AppRepository {
   Future<String?> login(String countryCode, String phone) async {
     try {
-      final url = Uri.parse("https://frijo.noviindus.in/api/otp_verified");
+      final url = Uri.parse(ApiConstants.authEndPoint);
 
       var request = http.MultipartRequest('POST', url);
       request.fields['country_code'] = countryCode;
       request.fields['phone'] = phone;
 
       final streamedResponse = await request.send();
-
       final responseString = await streamedResponse.stream.bytesToString();
 
       if (streamedResponse.statusCode >= 200 &&
@@ -35,8 +35,8 @@ class AppRepository {
 
   Future<List<CategoryModel>> fetchCategories() async {
     try {
-      final response = await http
-          .get(Uri.parse("https://frijo.noviindus.in/api/category_list"));
+      final response =
+          await http.get(Uri.parse(ApiConstants.categoryListEndPoint));
       if (response.statusCode >= 200 && response.statusCode <= 299) {
         final body = jsonDecode(response.body);
         final result = (body["categories"] as List).map(
@@ -55,8 +55,7 @@ class AppRepository {
 
   Future<List<FeedModel>> fetchHomeFeedData() async {
     try {
-      final response =
-          await http.get(Uri.parse("https://frijo.noviindus.in/api/home"));
+      final response = await http.get(Uri.parse(ApiConstants.homeEndPoint));
       if (response.statusCode >= 200 && response.statusCode <= 299) {
         final body = jsonDecode(response.body);
         final result = (body["results"] as List).map(
@@ -84,7 +83,7 @@ class AppRepository {
     try {
       var request = http.MultipartRequest(
         'POST',
-        Uri.parse("https://frijo.noviindus.in/api/my_feed"),
+        Uri.parse(ApiConstants.myFeedEndPoint),
       );
 
       request.headers['Authorization'] = 'Bearer $token';

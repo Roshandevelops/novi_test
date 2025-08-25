@@ -14,8 +14,12 @@ class AppRepository {
       request.fields['country_code'] = countryCode;
       request.fields['phone'] = phone;
 
+      log(request.fields.toString());
+
       final streamedResponse = await request.send();
+
       final responseString = await streamedResponse.stream.bytesToString();
+      log(responseString.toString());
 
       if (streamedResponse.statusCode >= 200 &&
           streamedResponse.statusCode <= 299) {
@@ -28,7 +32,8 @@ class AppRepository {
         return null;
       }
     } catch (e) {
-      return null;
+      log(e.toString());
+      return Future.error(e);
     }
   }
 
@@ -63,11 +68,13 @@ class AppRepository {
             return FeedModel.fromJson(e);
           },
         ).toList();
+        log(result.toString());
         return result;
       } else {
         return [];
       }
     } catch (e) {
+      log(e.toString());
       return Future.error(e);
     }
   }

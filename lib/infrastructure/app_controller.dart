@@ -36,8 +36,8 @@ class AppController extends ChangeNotifier {
 
   List<CategoryModel> categoryList = [];
   List<FeedModel> feedList = [];
-  bool isLoading = false;
 
+  bool isLoading = true;
   AppRepository appRepository = AppRepository();
 
   Future<void> fetchCategories() async {
@@ -49,7 +49,7 @@ class AppController extends ChangeNotifier {
   }
 
   Future<void> fetchHomeFeedData() async {
-    isLoading = false;
+    isLoading = true;
     notifyListeners();
     feedList = await appRepository.fetchHomeFeedData();
     isLoading = false;

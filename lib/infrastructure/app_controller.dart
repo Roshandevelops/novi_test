@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:novi_test/domain/model/category_model.dart';
+import 'package:novi_test/domain/model/feed_model.dart';
 import 'package:novi_test/domain/repository/app_repository.dart';
 import 'package:novi_test/presentation/home/home_screen.dart';
 
@@ -34,6 +35,7 @@ class AppController extends ChangeNotifier {
   }
 
   List<CategoryModel> categoryList = [];
+  List<FeedModel> feedList = [];
   bool isLoading = false;
 
   AppRepository appRepository = AppRepository();
@@ -42,6 +44,14 @@ class AppController extends ChangeNotifier {
     isLoading = true;
     notifyListeners();
     categoryList = await appRepository.fetchCategories();
+    isLoading = false;
+    notifyListeners();
+  }
+
+  Future<void> fetchHomeFeedData() async {
+    isLoading = false;
+    notifyListeners();
+    feedList = await appRepository.fetchHomeFeedData();
     isLoading = false;
     notifyListeners();
   }

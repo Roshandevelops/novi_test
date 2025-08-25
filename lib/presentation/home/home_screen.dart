@@ -19,6 +19,8 @@ class _HomeScreenState extends State<HomeScreen> {
       (_) async {
         await Provider.of<AppController>(context, listen: false)
             .fetchCategories();
+        await Provider.of<AppController>(context, listen: false)
+            .fetchHomeFeedData();
       },
     );
 
@@ -119,14 +121,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: [
                           Expanded(
                             child: ListView.builder(
-                              itemCount: 1,
+                              itemCount: appConsumer.feedList.length,
                               itemBuilder: (context, index) {
                                 return Container(
                                   width: double.infinity,
                                   height: MediaQuery.of(context).size.height *
                                       1 /
                                       2,
-                                  color: Colors.amber,
+                                  // color: Colors.amber,
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
@@ -134,7 +136,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                         padding: const EdgeInsets.all(8.0),
                                         child: Row(
                                           children: [
-                                            CircleAvatar(),
+                                            CircleAvatar(
+                                              child: Image.network(
+                                                appConsumer.feedList[index]
+                                                        .image ??
+                                                    "https://st4.depositphotos.com/14953852/24787/v/1600/depositphotos_247872612-stock-illustration-no-image-available-icon-vector.jpg",
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
                                             SizedBox(
                                               width: 20,
                                             ),
@@ -142,8 +151,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
-                                                Text("Title Name"),
-                                                Text("Sub Tile Name"),
+                                                Text(appConsumer.feedList[index]
+                                                        .user!.name ??
+                                                    "Unknown name"),
+                                                Text(
+                                                  appConsumer
+                                                      .feedList[index].createdAt
+                                                      .toString(),
+                                                ),
                                               ],
                                             ),
                                           ],
@@ -158,8 +173,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                         decoration: BoxDecoration(
                                           color: Colors.red,
                                         ),
+                                        child: Image.network(
+                                          appConsumer.feedList[index].image ??
+                                              "https://st4.depositphotos.com/14953852/24787/v/1600/depositphotos_247872612-stock-illustration-no-image-available-icon-vector.jpg",
+                                          fit: BoxFit.cover,
+                                        ),
                                       ),
-                                      Text("Lorem texddt"),
+                                      Text(appConsumer
+                                              .feedList[index].description ??
+                                          "Unknown Description"),
                                     ],
                                   ),
                                 );
@@ -172,6 +194,17 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Color(0xffC70000),
+          onPressed: () {},
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+          child: Icon(
+            size: 30,
+            Icons.add,
+            color: Colors.white,
+          ),
+        ),
       );
     });
   }

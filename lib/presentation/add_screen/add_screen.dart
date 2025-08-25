@@ -16,7 +16,7 @@ class _AddFeedsScreenState extends State<AddFeedsScreen> {
   File? _videoFile;
   File? _imageFile;
   final TextEditingController _descController = TextEditingController();
-  List<int> _selectedCategories = [];
+  final List<int> _selectedCategories = [];
 
   Future<void> _pickVideo() async {
     final result = await FilePicker.platform.pickFiles(
@@ -68,15 +68,17 @@ class _AddFeedsScreenState extends State<AddFeedsScreen> {
       image: _imageFile!,
     );
 
-    if (success) {
+    if (success && mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Feed uploaded successfully!")),
       );
       Navigator.pop(context);
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Upload failed")),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Upload failed")),
+        );
+      }
     }
   }
 
@@ -207,7 +209,7 @@ class _AddFeedsScreenState extends State<AddFeedsScreen> {
             const SizedBox(height: 20),
 
             /// Categories
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: const [
                 Text("Categories This Project",

@@ -92,10 +92,7 @@ class AppRepository {
       request.fields['category'] = categories.toString();
       request.files.add(await http.MultipartFile.fromPath('video', video.path));
       request.files.add(await http.MultipartFile.fromPath('image', image.path));
-      print(token.toString());
-      print(request.fields.toString());
       final response = await request.send();
-      log(token.toString());
 
       if (response.statusCode >= 200 && response.statusCode <= 299) {
         return true;

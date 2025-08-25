@@ -58,14 +58,13 @@ class AppController extends ChangeNotifier {
     notifyListeners();
   }
 
-    Future<bool> uploadFeed({
+  Future<bool> uploadFeed({
     required String desc,
     required List<int> categoryIds,
     required File video,
     required File image,
   }) async {
     if (token == null) {
-      debugPrint("❌ No token found. Please login first.");
       return false;
     }
 
@@ -84,7 +83,6 @@ class AppController extends ChangeNotifier {
       notifyListeners();
       return success;
     } catch (e) {
-      debugPrint("Upload failed: $e");
       isLoading = false;
       notifyListeners();
       return false;

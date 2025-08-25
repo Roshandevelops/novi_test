@@ -33,24 +33,24 @@ class _AuthScreenState extends State<AuthScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-              const  Text(
+                const Text(
                   TextStrings.enterYour,
                   style: TextStyle(
                     fontSize: 20,
                     color: KColorConstants.whiteColor,
                   ),
                 ),
-             const   Text(
+                const Text(
                   TextStrings.mobileNumber,
                   style: TextStyle(
                     fontSize: 20,
                     color: KColorConstants.whiteColor,
                   ),
                 ),
-           const     SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
-            const    Text(
+                const Text(
                   TextStrings.loremText,
                   style: TextStyle(
                     fontSize: 12,
@@ -58,7 +58,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     color: KColorConstants.loremColor,
                   ),
                 ),
-           const     SizedBox(
+                const SizedBox(
                   height: 30,
                 ),
                 Row(
@@ -67,7 +67,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       width: 80,
                       child: TextFormField(
                         controller: countryCodeController,
-                        decoration:const InputDecoration(
+                        decoration: const InputDecoration(
                           hintText: "+91",
                           hintStyle:
                               TextStyle(color: KColorConstants.loremColor),
@@ -80,13 +80,13 @@ class _AuthScreenState extends State<AuthScreen> {
                         ),
                       ),
                     ),
-                 const   SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     Expanded(
                       child: TextFormField(
                         controller: phoneController,
-                        decoration:const InputDecoration(
+                        decoration: const InputDecoration(
                           hintText: TextStrings.enterYourNumber,
                           hintStyle:
                               TextStyle(color: KColorConstants.loremColor),
@@ -118,7 +118,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       ),
                       width: 130,
                       height: 55,
-                      child:const Row(
+                      child: const Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           Text(

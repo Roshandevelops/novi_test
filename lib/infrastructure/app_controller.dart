@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:novi_test/domain/model/category_model.dart';
 import 'package:novi_test/domain/model/feed_model.dart';
@@ -54,5 +56,38 @@ class AppController extends ChangeNotifier {
     feedList = await appRepository.fetchHomeFeedData();
     isLoading = false;
     notifyListeners();
+  }
+
+    Future<bool> uploadFeed({
+    required String desc,
+    required List<int> categoryIds,
+    required File video,
+    required File image,
+  }) async {
+    if (token == null) {
+      debugPrint("❌ No token found. Please login first.");
+      return false;
+    }
+
+    isLoading = true;
+    notifyListeners();
+
+    try {
+      final success = await appRepository.uploadFeed(
+        token: token!,
+        desc: desc,
+        categories: categoryIds,
+        video: video,
+        image: image,
+      );
+      isLoading = false;
+      notifyListeners();
+      return success;
+    } catch (e) {
+      debugPrint("Upload failed: $e");
+      isLoading = false;
+      notifyListeners();
+      return false;
+    }
   }
 }

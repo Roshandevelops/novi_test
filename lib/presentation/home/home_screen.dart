@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:novi_test/infrastructure/app_controller.dart';
+import 'package:novi_test/presentation/add_screen/add_screen.dart';
 import 'package:novi_test/utils/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
@@ -55,7 +56,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                   color: KColorConstants.whiteColor,
                                 ),
                               ),
-                              CircleAvatar(),
+                              CircleAvatar(
+                                backgroundImage:
+                                    AssetImage("assets/images/profile.jpg"),
+                              ),
                             ],
                           ),
                           const Text(
@@ -133,41 +137,48 @@ class _HomeScreenState extends State<HomeScreen> {
                           return Container(
                             width: double.infinity,
                             margin: const EdgeInsets.only(bottom: 20),
-                            padding: const EdgeInsets.all(8),
                             decoration: BoxDecoration(
-                              color: Colors.grey.shade900,
+                              // color: Colors.grey.shade900,
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 /// User info row
-                                Row(
-                                  children: [
-                                    CircleAvatar(
-                                      backgroundImage: NetworkImage(
-                                        feed.image ??
-                                            "https://st4.depositphotos.com/14953852/24787/v/1600/depositphotos_247872612-stock-illustration-no-image-available-icon-vector.jpg",
-                                      ),
-                                    ),
-                                    const SizedBox(width: 20),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(feed.user?.name ?? "Unknown name",
-                                            style: const TextStyle(
-                                                color: Colors.white)),
-                                        Text(
-                                          feed.createdAt != null
-                                              ? timeago.format(feed.createdAt!)
-                                              : "Unknown Date",
-                                          style: const TextStyle(
-                                              color: Colors.grey, fontSize: 12),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10),
+                                  child: Row(
+                                    children: [
+                                      CircleAvatar(
+                                        backgroundImage: NetworkImage(
+                                          feed.image ??
+                                              "https://st4.depositphotos.com/14953852/24787/v/1600/depositphotos_247872612-stock-illustration-no-image-available-icon-vector.jpg",
                                         ),
-                                      ],
-                                    ),
-                                  ],
+                                      ),
+                                      const SizedBox(width: 20),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            feed.user?.name ?? "Unknown name",
+                                            style: const TextStyle(
+                                                color: Colors.white),
+                                          ),
+                                          Text(
+                                            feed.createdAt != null
+                                                ? timeago
+                                                    .format(feed.createdAt!)
+                                                : "Unknown Date",
+                                            style: const TextStyle(
+                                                color: Colors.grey,
+                                                fontSize: 12),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
                                 const SizedBox(height: 10),
 
@@ -186,11 +197,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                 const SizedBox(height: 10),
 
                                 /// Description
-                                Text(
-                                  feed.description ?? "Unknown Description",
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 14,
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 10),
+                                  child: Text(
+                                    feed.description ?? "Unknown Description",
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                    ),
                                   ),
                                 ),
                               ],
@@ -204,7 +218,15 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
         floatingActionButton: FloatingActionButton(
           backgroundColor: const Color(0xffC70000),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) {
+                  return AddFeedsScreen();
+                },
+              ),
+            );
+          },
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
           child: const Icon(

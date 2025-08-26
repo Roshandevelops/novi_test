@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:novi_test/infrastructure/app_controller.dart';
+import 'package:novi_test/utils/text_strings.dart';
 import 'package:provider/provider.dart';
 
 class AddFeedsScreen extends StatefulWidget {
@@ -15,79 +16,17 @@ class AddFeedsScreen extends StatefulWidget {
 class _AddFeedsScreenState extends State<AddFeedsScreen> {
   File? _videoFile;
   File? _imageFile;
-  final TextEditingController _descController = TextEditingController();
+  final TextEditingController descController = TextEditingController();
   final List<int> _selectedCategories = [];
-
-  Future<void> _pickVideo() async {
-    final result = await FilePicker.platform.pickFiles(
-      type: FileType.video,
-    );
-    if (result != null && result.files.single.path != null) {
-      setState(() {
-        _videoFile = File(result.files.single.path!);
-      });
-    }
-  }
-
-  Future<void> _pickImage() async {
-    final result = await FilePicker.platform.pickFiles(
-      type: FileType.image,
-    );
-    if (result != null && result.files.single.path != null) {
-      setState(() {
-        _imageFile = File(result.files.single.path!);
-      });
-    }
-  }
-
-  void _toggleCategory(int id) {
-    setState(() {
-      if (_selectedCategories.contains(id)) {
-        _selectedCategories.remove(id);
-      } else {
-        _selectedCategories.add(id);
-      }
-    });
-  }
-
-  void _submit(AppController controller) async {
-    if (_videoFile == null ||
-        _imageFile == null ||
-        _descController.text.isEmpty ||
-        _selectedCategories.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("All fields are mandatory")),
-      );
-      return;
-    }
-
-    final success = await controller.uploadFeed(
-      desc: _descController.text,
-      categoryIds: _selectedCategories,
-      video: _videoFile!,
-      image: _imageFile!,
-    );
-
-    if (success && mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Feed uploaded successfully!")),
-      );
-      Navigator.pop(context);
-    } else {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Upload failed")),
-        );
-      }
-    }
-  }
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<AppController>(context, listen: false).fetchCategories();
-    });
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) {
+        Provider.of<AppController>(context, listen: false).fetchCategories();
+      },
+    );
   }
 
   @override
@@ -106,7 +45,12 @@ class _AddFeedsScreenState extends State<AddFeedsScreen> {
             color: Colors.white,
           ),
         ),
-        title: const Text("Add Feeds", style: TextStyle(color: Colors.white)),
+        title: const Text(
+          TextStrings.addFeeds,
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 12),
@@ -129,7 +73,7 @@ class _AddFeedsScreenState extends State<AddFeedsScreen> {
                           color: Colors.white,
                         ),
                       )
-                    : const Text("Share Post",
+                    : const Text(TextStrings.sharePost,
                         style: TextStyle(color: Colors.white, fontSize: 14)),
               ),
             ),
@@ -156,14 +100,14 @@ class _AddFeedsScreenState extends State<AddFeedsScreen> {
                   color: const Color(0xff1E1E1E),
                   child: Center(
                     child: _videoFile == null
-                        ?const Column(
+                        ? const Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Icon(Icons.add_photo_alternate_outlined),
                               SizedBox(
                                 height: 10,
                               ),
-                               Text("Select a video from Gallery",
+                              Text(TextStrings.selectVideoFromGallery,
                                   style: TextStyle(color: Colors.white70)),
                             ],
                           )
@@ -191,13 +135,13 @@ class _AddFeedsScreenState extends State<AddFeedsScreen> {
                   width: double.infinity,
                   color: const Color(0xff1E1E1E),
                   child: _imageFile == null
-                      ?const Row(
+                      ? const Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             Icon(
                               Icons.camera_alt_sharp,
                             ),
-                             Text("Add a Thumbnail",
+                            Text(TextStrings.addThumbnail,
                                 style: TextStyle(color: Colors.white70)),
                           ],
                         )
@@ -208,15 +152,15 @@ class _AddFeedsScreenState extends State<AddFeedsScreen> {
             const SizedBox(height: 20),
 
             /// Description
-            const Text("Add Description",
+            const Text(TextStrings.addDescription,
                 style: TextStyle(color: Colors.white, fontSize: 16)),
             const SizedBox(height: 8),
             TextField(
-              controller: _descController,
+              controller: descController,
               maxLines: 3,
               style: const TextStyle(color: Colors.white),
               decoration: InputDecoration(
-                hintText: "Enter description",
+                hintText: TextStrings.addDescription,
                 hintStyle: const TextStyle(color: Colors.white54),
                 filled: true,
                 fillColor: const Color(0xff1E1E1E),
@@ -229,11 +173,15 @@ class _AddFeedsScreenState extends State<AddFeedsScreen> {
             /// Categories
             const Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children:  [
-                Text("Categories This Project",
-                    style: TextStyle(color: Colors.white, fontSize: 16)),
-                Text("View All",
-                    style: TextStyle(color: Colors.white54, fontSize: 13)),
+              children: [
+                Text(
+                  TextStrings.categoriesThisProject,
+                  style: TextStyle(color: Colors.white, fontSize: 16),
+                ),
+                Text(
+                  TextStrings.viewAll,
+                  style: TextStyle(color: Colors.white54, fontSize: 13),
+                ),
               ],
             ),
             const SizedBox(height: 12),
@@ -273,5 +221,74 @@ class _AddFeedsScreenState extends State<AddFeedsScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _pickVideo() async {
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.video,
+    );
+    if (result != null && result.files.single.path != null) {
+      setState(() {
+        _videoFile = File(result.files.single.path!);
+      });
+    }
+  }
+
+  Future<void> _pickImage() async {
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.image,
+    );
+    if (result != null && result.files.single.path != null) {
+      setState(
+        () {
+          _imageFile = File(result.files.single.path!);
+        },
+      );
+    }
+  }
+
+  void _toggleCategory(int id) {
+    setState(() {
+      if (_selectedCategories.contains(id)) {
+        _selectedCategories.remove(id);
+      } else {
+        _selectedCategories.add(id);
+      }
+    });
+  }
+
+  void _submit(AppController controller) async {
+    if (_videoFile == null ||
+        _imageFile == null ||
+        descController.text.isEmpty ||
+        _selectedCategories.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+            content: Text(
+          TextStrings.allFieldsAreMandatory,
+        )),
+      );
+      return;
+    }
+
+    final success = await controller.uploadFeed(
+      desc: descController.text,
+      categoryIds: _selectedCategories,
+      video: _videoFile!,
+      image: _imageFile!,
+    );
+
+    if (success && mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text(TextStrings.feedUploadedSuccessfully)),
+      );
+      Navigator.pop(context);
+    } else {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text(TextStrings.uploadFailed)),
+        );
+      }
+    }
   }
 }

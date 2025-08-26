@@ -5,7 +5,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:novi_test/core/api_constants.dart';
 import 'package:novi_test/domain/model/category_model.dart';
-import 'package:novi_test/domain/model/feed_model.dart';
+import 'package:novi_test/domain/model/home_feed_model.dart';
 
 class AppRepository {
   Future<String?> login(String countryCode, String phone) async {
@@ -53,14 +53,14 @@ class AppRepository {
     }
   }
 
-  Future<List<FeedModel>> fetchHomeFeedData() async {
+  Future<List<HomeFeedModel>> fetchHomeFeedData() async {
     try {
       final response = await http.get(Uri.parse(ApiConstants.homeEndPoint));
       if (response.statusCode >= 200 && response.statusCode <= 299) {
         final body = jsonDecode(response.body);
         final result = (body["results"] as List).map(
           (e) {
-            return FeedModel.fromJson(e);
+            return HomeFeedModel.fromJson(e);
           },
         ).toList();
 

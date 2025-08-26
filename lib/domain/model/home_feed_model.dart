@@ -1,4 +1,4 @@
-class FeedModel {
+class HomeFeedModel {
   final int? id;
   final String? description;
   final String? image;
@@ -11,7 +11,7 @@ class FeedModel {
   final bool? follow;
   final User? user;
 
-  FeedModel({
+  HomeFeedModel({
     this.id,
     this.description,
     this.image,
@@ -25,7 +25,7 @@ class FeedModel {
     this.user,
   });
 
-  factory FeedModel.fromJson(Map<String, dynamic> json) => FeedModel(
+  factory HomeFeedModel.fromJson(Map<String, dynamic> json) => HomeFeedModel(
         id: json["id"],
         description: json["description"],
         image: json["image"],

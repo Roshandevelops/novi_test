@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:novi_test/infrastructure/app_controller.dart';
-import 'package:novi_test/utils/colors.dart';
-import 'package:novi_test/utils/text_strings.dart';
+import 'package:novi_test/presentation/auth/widget/auth_header_widget.dart';
+import 'package:novi_test/presentation/auth/widget/continue_button_widget.dart';
+import 'package:novi_test/presentation/auth/widget/country_code_number_widget.dart';
 import 'package:provider/provider.dart';
 
 class AuthScreen extends StatefulWidget {
@@ -14,7 +15,7 @@ class AuthScreen extends StatefulWidget {
 class _AuthScreenState extends State<AuthScreen> {
   late AppController authProvider;
   final TextEditingController countryCodeController =
-      TextEditingController(text: '+91');
+      TextEditingController(text: "+91");
   final TextEditingController phoneController = TextEditingController();
 
   @override
@@ -33,111 +34,18 @@ class _AuthScreenState extends State<AuthScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  TextStrings.enterYour,
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: KColorConstants.whiteColor,
-                  ),
-                ),
-                const Text(
-                  TextStrings.mobileNumber,
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: KColorConstants.whiteColor,
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                const Text(
-                  TextStrings.loremText,
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w400,
-                    color: KColorConstants.loremColor,
-                  ),
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                Row(
-                  children: [
-                    SizedBox(
-                      width: 80,
-                      child: TextFormField(
-                        controller: countryCodeController,
-                        decoration: const InputDecoration(
-                          hintText: "+91",
-                          hintStyle:
-                              TextStyle(color: KColorConstants.loremColor),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Expanded(
-                      child: TextFormField(
-                        controller: phoneController,
-                        decoration: const InputDecoration(
-                          hintText: TextStrings.enterYourNumber,
-                          hintStyle:
-                              TextStyle(color: KColorConstants.loremColor),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+                const AuthHeaderWidget(),
+                CountryCodeNumberWidget(
+                  countryCodeController: countryCodeController,
+                  phoneController: phoneController,
                 ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 1 / 2,
                 ),
-                InkWell(
+                ContinueButtonWidget(
                   onTap: () {
                     login(context);
                   },
-                  child: Center(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        border: Border.all(
-                          color: KColorConstants.borderColor,
-                        ),
-                      ),
-                      width: 130,
-                      height: 55,
-                      child: const Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Text(
-                            TextStrings.continueText,
-                            style: TextStyle(
-                              color: KColorConstants.whiteColor,
-                            ),
-                          ),
-                          CircleAvatar(
-                            backgroundColor: KColorConstants.continueIconColor,
-                            child: Icon(
-                              Icons.arrow_forward_ios_outlined,
-                              color: Colors.white,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
                 )
               ],
             ),

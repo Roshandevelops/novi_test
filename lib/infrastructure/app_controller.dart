@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:novi_test/domain/model/category_model.dart';
-import 'package:novi_test/domain/model/feed_model.dart';
+import 'package:novi_test/domain/model/home_feed_model.dart';
 import 'package:novi_test/domain/repository/app_repository.dart';
 import 'package:novi_test/presentation/home/home_screen.dart';
 
@@ -36,7 +36,7 @@ class AppController extends ChangeNotifier {
   }
 
   List<CategoryModel> categoryList = [];
-  List<FeedModel> feedList = [];
+  List<HomeFeedModel> feedList = [];
 
   bool isLoading = true;
   AppRepository appRepository = AppRepository();
